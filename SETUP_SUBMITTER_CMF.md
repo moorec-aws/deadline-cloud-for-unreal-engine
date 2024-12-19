@@ -88,7 +88,7 @@ Note that you may wish to disable the "strict hash" feature in Unreal's Python s
 
 ```
 // Install hatch if not yet installed
-pip install hatch  
+pip install hatch
 hatch build
 "C:\Program Files\Epic Games\UE_5.4\Engine\Binaries\ThirdParty\Python3\Win64\python" -m pip install dist\deadline_cloud_for_unreal_engine-0.2.2.post21-py3-none-any.whl --target "C:\Program Files\Epic Games\UE_5.4\Engine\Plugins\UnrealDeadlineCloudService\Content\Python\libraries"
 ```
@@ -136,9 +136,22 @@ The Unreal Plugin currently must be compiled locally.
 
 ```
 python -m pip install deadline-cloud-worker-agent
+```
+
+The correct version of the adaptor must be installed depending on the version of the submitter being used.  If you are using the version of the submitter from the release branch in GitHub, you can simply install with pip:
+
+```
 python -m pip install deadline-cloud-for-unreal-engine
 ```
 
+If you're using mainline or a custom/in development version of the submitter in order to avoid compatibility issues it's advised to build and install from the same version of code or transfer over the .whl file from your submitter build:
+
+```
+// Install hatch if not yet installed
+pip install hatch
+hatch build
+python -m pip install dist\my-built-wheel.whl
+```
 - clone or download deadline-cloud-for-unreal-engine
 
 ## Build the Plugin

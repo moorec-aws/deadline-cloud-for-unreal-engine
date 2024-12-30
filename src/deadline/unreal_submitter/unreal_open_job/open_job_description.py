@@ -14,6 +14,7 @@ from deadline.unreal_submitter.common import (
     get_project_directory,
     get_project_file_path,
     soft_obj_path_to_str,
+    create_deadline_cloud_temp_file,
 )
 from deadline.unreal_submitter.unreal_dependency_collector.common import (
     DependencyFilters,
@@ -273,8 +274,6 @@ class OpenJobDescription:
         # TODO handling unreal substitution templates
         output_path = output_path.replace("{project_dir}", project_directory)
 
-        cmd_args = self._get_ue_cmd_args(mrq_job)
-
         parameter_values = [
             {
                 "name": "LevelPath",
@@ -293,7 +292,14 @@ class OpenJobDescription:
                 "value": project_directory,
             },
             {"name": "OutputPath", "value": output_path},
-            {"name": "ExtraCmdArgs", "value": " ".join(cmd_args)},
+            {
+                "name": "ExtraCmdArgsFile",
+                "value": create_deadline_cloud_temp_file(
+                    file_prefix="ExtraCmdArgsFile",
+                    file_data=" ".join(self._get_ue_cmd_args(mrq_job)),
+                    file_ext=".txt",
+                ),
+            },
         ]
 
         shared_parameter_values = JobSharedSettings(
